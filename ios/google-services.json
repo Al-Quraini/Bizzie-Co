@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "302122365929",
+    "firebase_url": "https://bizzie-co-default-rtdb.firebaseio.com",
+    "project_id": "bizzie-co",
+    "storage_bucket": "bizzie-co.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302122365929:android:9074cf2ccb9ef06eaf9178",
+        "android_client_info": {
+          "package_name": "com.bizzieco.bizzieCo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302122365929-17ef4ldqbc2ihah1ga5m6lft2l5a030u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvN1mYbKBKZLhocD7d9lonkALlBt5iuCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302122365929-17ef4ldqbc2ihah1ga5m6lft2l5a030u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302122365929-hbhi4g762302nid9adsg3dn7ahi7eu5m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bizzieco.bizzieCo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302122365929:android:5605644571e58c94af9178",
+        "android_client_info": {
+          "package_name": "com.bizzieco.bizzie_co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302122365929-17ef4ldqbc2ihah1ga5m6lft2l5a030u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvN1mYbKBKZLhocD7d9lonkALlBt5iuCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302122365929-17ef4ldqbc2ihah1ga5m6lft2l5a030u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302122365929-hbhi4g762302nid9adsg3dn7ahi7eu5m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bizzieco.bizzieCo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
