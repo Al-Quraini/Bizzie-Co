@@ -29,30 +29,32 @@ class GoogleSignInProvider extends ChangeNotifier {
       final auth.UserCredential authResult =
           await AuthenticationService().firebaseSignIn(credential);
 
+      // if the user exists, this will return null
       final auth.User? user = authResult.user;
 
-      ///Her to check isNewUser OR Not
+      // Here to check isNewUser OR Not
       if (authResult.additionalUserInfo!.isNewUser) {
         if (user != null) {
           isNewUser = true;
           User user = User(
+              timestamp: DateTime.now(),
               email: AuthenticationService().getUser()!.email!,
               uid: AuthenticationService().getUser()!.uid,
               numOfConnections: 0);
 
+          // add new use to the database
           await FirestoreService().addUser(user: user);
-        }
+        } // else just login
       }
+
+      // after loggin, load user data from the database
       await FirestoreService()
           .loadUserData(userUid: AuthenticationService().getUser()!.uid);
-
-      await FirestoreService().getConnections();
 
       notifyListeners();
 
       return isNewUser;
     } catch (e) {
-      print(e);
       return null;
     }
   }

@@ -15,8 +15,9 @@ class LoadNotification extends NotificationEvent {}
 class UpdateNotification extends NotificationEvent {
   final List<NotificationModel> notifications;
 
+
   const UpdateNotification(this.notifications);
 
   @override
-  List<Object?> get props => [notifications];
+  List<Object?> get props => [notifications, ];
 }

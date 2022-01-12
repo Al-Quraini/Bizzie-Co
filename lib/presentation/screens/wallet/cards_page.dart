@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:bizzie_co/business_logic/bloc/connection/connections_bloc.dart';
 import 'package:bizzie_co/data/models/connection.dart';
-import 'package:bizzie_co/data/models/user.dart';
+
 import 'package:bizzie_co/presentation/screens/wallet/components/card_item_list.dart';
 
 import 'package:bizzie_co/presentation/screens/wallet/components/filter_bottom_sheet.dart';
@@ -11,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CardsPage extends StatefulWidget {
   const CardsPage({Key? key}) : super(key: key);
@@ -37,17 +35,17 @@ class _CardsPageState extends State<CardsPage> {
                       fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const Spacer(),
-                InkWell(
-                    onTap: showBottomSheet,
-                    child: const Icon(FontAwesomeIcons.slidersH)),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Icon(FontAwesomeIcons.ellipsisV),
+
+                // TODO : Later work on filters
+                // InkWell(
+                //     onTap: showBottomSheet,
+                //     child: const Icon(FontAwesomeIcons.slidersH)),
               ],
             )),
           ),
-          Container(
+
+          // TODO : Search Connections
+          /*  Container(
             height: 50,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey[400]!, width: 1)),
@@ -58,29 +56,32 @@ class _CardsPageState extends State<CardsPage> {
                   border: InputBorder.none,
                   prefixIcon: Icon(Icons.search)),
             ),
-          ),
+          ), */
           BlocBuilder<ConnectionsBloc, ConnectionsState>(
             builder: (context, state) {
               if (state is ConnectionLoaded) {
                 List<Connection> connections = state.connections;
-                List<User> users = state.users;
 
-                if (users.isNotEmpty) {
+                if (connections.isNotEmpty) {
                   return Column(
                     children: [
                       const SizedBox(
                         height: 15,
                       ),
-                      ListView.builder(
+                      ListView.separated(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 0),
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: connections.length,
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 8,
+                          );
+                        },
                         itemBuilder: (context, index) {
                           return CardItemList(
                             connection: connections[index],
-                            user: users[index],
                           );
                         },
                       ),
@@ -113,15 +114,18 @@ class _CardsPageState extends State<CardsPage> {
   }
 
   void showBottomSheet() {
+    final rootNavigatorContext =
+        Navigator.of(context, rootNavigator: true).context;
+
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
         ),
-        context: context,
+        context: rootNavigatorContext,
         isScrollControlled: true,
         builder: (context) => Container(
             // clipBehavior: Clip.antiAlias,
-            height: MediaQuery.of(context).size.height * 0.95,
+            height: MediaQuery.of(context).size.height * 0.65,
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: const FilterBottomSheet()));

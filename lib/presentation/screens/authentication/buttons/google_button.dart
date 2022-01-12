@@ -38,7 +38,7 @@ class GoogleButton extends StatelessWidget {
                 SizedBox(
                   width: constraint.maxWidth / 1.5,
                   child: AutoSizeText(
-                    '   continue with Google   ',
+                    '   continue with Google   '.toUpperCase(),
                     maxLines: 1,
                     maxFontSize: 16,
                     minFontSize: 12,

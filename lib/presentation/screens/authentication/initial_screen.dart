@@ -16,7 +16,6 @@ class InitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('Habeeeeeeeeeeeeeeb');
     double height = MediaQuery.of(context).size.height; //height of screen
     double width = MediaQuery.of(context).size.width; //width of screen
     return Scaffold(
@@ -26,19 +25,18 @@ class InitialPage extends StatelessWidget {
             Stack(children: [
               // secondary container
               SecondaryContainer(
-                height: height,
-                width: width,
-                containerHeight: 0.68,
+                containerHeight: 0.68 * height,
               ),
 
               // primary container
               PrimaryContainer(
-                height: height,
-                width: width,
-                containerHeight: 0.63,
+                containerHeight: 0.63 * height,
                 padding: 50,
               ),
             ]),
+            const SizedBox(
+              height: 10,
+            ),
             AuthButton(
               title: 'Sign In',
               onPress: () {

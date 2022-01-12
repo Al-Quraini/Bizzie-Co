@@ -3,64 +3,75 @@ import 'dart:convert';
 import 'package:bizzie_co/data/models/user/geo_location.dart';
 
 class Education {
-  final String university;
-  final String major;
-  final int startYear;
-  final int? endYear;
+  final String? institution;
+  final String? degree;
+  final String? field;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final GeoLocation? location;
   final String? description;
-  final GeoLocation location;
   final bool isPresent;
   Education({
-    required this.university,
-    required this.major,
-    required this.startYear,
-    this.endYear,
+    this.institution,
+    this.degree,
+    this.field,
+    this.startDate,
+    this.endDate,
+    this.location,
     this.description,
-    required this.location,
-    required this.isPresent,
+    this.isPresent = false,
   });
 
   Education copyWith({
-    String? university,
-    String? major,
-    int? startYear,
-    int? endYear,
-    String? description,
+    String? institution,
+    String? degree,
+    String? field,
+    DateTime? startDate,
+    DateTime? endDate,
     GeoLocation? location,
+    String? description,
     bool? isPresent,
   }) {
     return Education(
-      university: university ?? this.university,
-      major: major ?? this.major,
-      startYear: startYear ?? this.startYear,
-      endYear: endYear ?? this.endYear,
-      description: description ?? this.description,
+      institution: institution ?? this.institution,
+      degree: degree ?? this.degree,
+      field: field ?? this.field,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       location: location ?? this.location,
+      description: description ?? this.description,
       isPresent: isPresent ?? this.isPresent,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'university': university,
-      'major': major,
-      'startYear': startYear,
-      'endYear': endYear,
+      'institution': institution,
+      'degree': degree,
+      'field': field,
+      'startDate': startDate?.millisecondsSinceEpoch,
+      'endDate': endDate?.millisecondsSinceEpoch,
+      'location': location?.toMap(),
       'description': description,
-      'location': location.toMap(),
       'isPresent': isPresent,
     };
   }
 
   factory Education.fromMap(Map<String, dynamic> map) {
     return Education(
-      university: map['university'],
-      major: map['major'],
-      startYear: map['startYear'],
-      endYear: map['endYear'],
+      institution: map['institution'] ?? '',
+      degree: map['degree'] ?? '',
+      field: map['field'] ?? '',
+      startDate: map['startDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['startDate'])
+          : null,
+      endDate: map['endDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['endDate'])
+          : null,
+      location:
+          map['location'] != null ? GeoLocation.fromMap(map['location']) : null,
       description: map['description'],
-      location: GeoLocation.fromMap(map['location']),
-      isPresent: map['isPresent'],
+      isPresent: map['isPresent'] ?? false,
     );
   }
 
@@ -71,7 +82,7 @@ class Education {
 
   @override
   String toString() {
-    return 'Education(university: $university, major: $major, startYear: $startYear, endYear: $endYear, description: $description, location: $location, isPresent: $isPresent)';
+    return 'Education(institution: $institution, degree: $degree, field: $field, startDate: $startDate, endDate: $endDate, location: $location, description: $description, isPresent: $isPresent)';
   }
 
   @override
@@ -79,23 +90,25 @@ class Education {
     if (identical(this, other)) return true;
 
     return other is Education &&
-        other.university == university &&
-        other.major == major &&
-        other.startYear == startYear &&
-        other.endYear == endYear &&
-        other.description == description &&
+        other.institution == institution &&
+        other.degree == degree &&
+        other.field == field &&
+        other.startDate == startDate &&
+        other.endDate == endDate &&
         other.location == location &&
+        other.description == description &&
         other.isPresent == isPresent;
   }
 
   @override
   int get hashCode {
-    return university.hashCode ^
-        major.hashCode ^
-        startYear.hashCode ^
-        endYear.hashCode ^
-        description.hashCode ^
+    return institution.hashCode ^
+        degree.hashCode ^
+        field.hashCode ^
+        startDate.hashCode ^
+        endDate.hashCode ^
         location.hashCode ^
+        description.hashCode ^
         isPresent.hashCode;
   }
 }

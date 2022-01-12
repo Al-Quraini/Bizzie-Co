@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:bizzie_co/data/models/notification_model.dart';
+import 'package:bizzie_co/data/models/user.dart';
+import 'package:bizzie_co/data/service/storage_service.dart';
 import 'package:meta/meta.dart';
 
 import 'dart:async';
@@ -43,18 +47,39 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }
 
   Stream<NotificationState> _mapLoadNotificationsToState() async* {
-    _notificationsSubscription?.cancel();
-    _firestoreRepository.getAllNotifications().listen((notifications) async {
-      add(UpdateNotification(notifications));
+    // _notificationsSubscription?.cancel();
+    _notificationsSubscription = _firestoreRepository
+        .getAllNotifications()
+        .listen((notifications) async {
+      List<NotificationModel> myNotifications = [];
+      for (NotificationModel notification in notifications) {
+        final userImageUrl =
+            await StorageService().getImageUrl(notification.userImagePath);
+
+        notification.setUrl = userImageUrl;
+
+        myNotifications.add(notification);
+      }
+      add(UpdateNotification(myNotifications));
     });
   }
 
   Stream<NotificationState> _mapUpdateNotificationsToState(
       UpdateNotification event) async* {
-    yield NotificationLoaded(notifications: event.notifications);
+    yield NotificationLoaded(
+      notifications: event.notifications,
+    );
   }
 
   Stream<NotificationState> _mapInitializeNotificationToState() async* {
+    _notificationsSubscription?.cancel();
+
     yield NotificationInitial();
+  }
+
+  @override
+  Future<void> close() {
+    _notificationsSubscription?.cancel();
+    return super.close();
   }
 }

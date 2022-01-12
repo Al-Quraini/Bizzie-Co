@@ -1,15 +1,13 @@
 import 'package:bizzie_co/data/models/notification_model.dart';
 import 'package:bizzie_co/data/models/user.dart';
-import 'package:bizzie_co/utils/constant.dart';
+import 'package:bizzie_co/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NotificationItemList extends StatelessWidget {
-  const NotificationItemList(
-      {Key? key, required this.user, required this.notification})
+  const NotificationItemList({Key? key, required this.notification})
       : super(key: key);
 
-  final User user;
   final NotificationModel notification;
 
   @override
@@ -39,10 +37,10 @@ class NotificationItemList extends StatelessWidget {
                           clipBehavior: Clip.antiAlias,
                           height: 70,
                           width: 70,
-                          child: user.imageUrl == null
+                          child: notification.userImagePath == null
                               ? const SizedBox()
                               : Image.network(
-                                  user.imageUrl!,
+                                  notification.userImage!,
                                   fit: BoxFit.cover,
                                 ),
                           decoration: BoxDecoration(
@@ -74,10 +72,8 @@ class NotificationItemList extends StatelessWidget {
                         style: const TextStyle(color: Colors.black),
                         children: <TextSpan>[
                           TextSpan(
-                              text: user.firstName != null &&
-                                      user.lastName != null
-                                  ? '${user.firstName} ${user.lastName} '
-                                  : '-',
+                              text:
+                                  '${notification.userFirstName} ${notification.userFirstName} ',
                               style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -90,7 +86,7 @@ class NotificationItemList extends StatelessWidget {
                               )),
                           TextSpan(
                               text:
-                                  '\r\r\r${notification.timeStamp.hour}: ${notification.timeStamp.minute}',
+                                  '\r\r\r${notification.timestamp.toTimeAgo()}',
                               style: GoogleFonts.poppins(
                                 fontSize: 11,
                                 color: Colors.black54,

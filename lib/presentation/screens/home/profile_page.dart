@@ -5,11 +5,18 @@ import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String id = '/profile_page';
-  const ProfilePage({Key? key, required this.user, required this.card})
+  const ProfilePage(
+      {Key? key,
+      required this.user,
+      required this.card,
+      required this.isMyProfile,
+      required this.cards})
       : super(key: key);
 
   final User user;
   final UserCard card;
+  final List<UserCard> cards;
+  final bool isMyProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,8 @@ class ProfilePage extends StatelessWidget {
       body: ProfileTab(
         user: user,
         card: card,
+        cards: cards,
+        isMyProfile: false,
       ),
     );
   }

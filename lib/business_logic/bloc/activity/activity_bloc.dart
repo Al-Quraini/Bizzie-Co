@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:bizzie_co/data/models/activity.dart';
-import 'package:meta/meta.dart';
-
-import 'dart:async';
-
 import 'package:bizzie_co/data/repository/firestore_repository.dart';
+import 'package:bizzie_co/data/service/firestore_service.dart';
+import 'package:bizzie_co/data/service/storage_service.dart';
+import 'package:bizzie_co/utils/constant.dart';
+import 'package:meta/meta.dart';
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 
@@ -36,16 +39,30 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       yield* _mapLoadActivitiesToState();
     } else if (event is UpdateActivity) {
       yield* _mapUpdateActivitesToState(event);
-    }
-    if (event is CancelActivity) {
+    } else if (event is CancelActivity) {
       yield* _mapCancelActivitiesToState();
     }
   }
 
   Stream<ActivityState> _mapLoadActivitiesToState() async* {
-    _activitySubscription?.cancel();
-    _firestoreRepository.getAllActivities().listen((activities) async {
-      add(UpdateActivity(activities));
+    // _activitySubscription?.cancel();
+    // String path = '$USERS/${FirestoreService.currentUser!.uid}/$ACTIVITIES';
+    _activitySubscription =
+        _firestoreRepository.combinedActivities().listen((activities) async {
+      List<Activity> myActivities = [];
+      for (Activity activity in activities) {
+        final userImageUrl =
+            await StorageService().getImageUrl(activity.userImagePath);
+        final activityImageUrl =
+            await StorageService().getImageUrl(activity.url);
+
+        activity.setUserUrl = userImageUrl;
+        activity.setPhotoUrl = activityImageUrl;
+
+        myActivities.add(activity);
+      }
+
+      add(UpdateActivity(myActivities));
     });
   }
 
@@ -56,5 +73,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   Stream<ActivityState> _mapCancelActivitiesToState() async* {
     yield ActivityInitial();
+  }
+
+  @override
+  Future<void> close() {
+    _activitySubscription?.cancel();
+    return super.close();
   }
 }

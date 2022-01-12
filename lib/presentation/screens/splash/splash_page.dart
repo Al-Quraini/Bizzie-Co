@@ -1,11 +1,13 @@
 import 'dart:async';
-
+import 'package:bizzie_co/data/models/user.dart';
+import 'package:bizzie_co/data/models/user_card.dart';
 import 'package:bizzie_co/data/service/authentication_service.dart';
 import 'package:bizzie_co/data/service/firestore_service.dart';
+import 'package:bizzie_co/data/service/storage_service.dart';
 import 'package:bizzie_co/presentation/screens/authentication/initial_screen.dart';
-import 'package:bizzie_co/presentation/screens/authentication/login_page.dart';
 import 'package:bizzie_co/presentation/screens/authentication/user_info.dart';
 import 'package:bizzie_co/presentation/screens/home/home_page.dart';
+import 'package:bizzie_co/presentation/screens/profile/card/card_detail_page.dart';
 import 'package:bizzie_co/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +35,11 @@ class _SplashPageState extends State<SplashPage> {
       backgroundColor: primary,
       body: Center(
         child: SizedBox(
-          child: SizedBox(
-            width: width / 1.5,
-            child: Image.asset(
-              'assets/images/bizzieco_logo.png',
-              // fit: BoxFit.fitWidth,
-              // scale: 0.5,
-            ),
+          width: width / 1.5,
+          child: Image.asset(
+            'assets/images/bizzieco_logo.png',
+            // fit: BoxFit.fitWidth,
+            // scale: 0.5,
           ),
         ),
       ),
@@ -52,23 +52,49 @@ class _SplashPageState extends State<SplashPage> {
         (AuthenticationService().getUser()?.emailVerified ?? false);
 
     if (isLoggedIn) {
-      final user = await FirestoreService()
+      User? user = await FirestoreService()
           .loadUserData(userUid: AuthenticationService().getUser()!.uid);
 
-      if (user?.firstName == null ||
-          user?.lastName == null ||
-          user?.phone == null) {
+      if (user == null) {
+        logoutUser();
+        return;
+      }
+
+      if (user.firstName == null ||
+          user.lastName == null ||
+          user.phone == null) {
         initialRout = UserInfoPage.id;
       } else {
-        await FirestoreService()
-            .getCardData(userUid: user!.uid, cardUid: user.primaryCard!);
-        await FirestoreService().getConnections();
-        initialRout = HomePage.id;
+        final UserCard? card = await FirestoreService()
+            .getCardData(userUid: user.uid, cardUid: user.primaryCard!);
+
+        if (card == null) {
+          initialRout = CardDetailPage.id;
+        } else {
+          final cards = await FirestoreService()
+              .getAllCards(userUid: FirestoreService.currentUser!.uid);
+          FirestoreService.setUserCards(cards);
+
+          final tickets = await FirestoreService()
+              .getTickets(userUid: FirestoreService.currentUser!.uid);
+          FirestoreService.setTickets(tickets);
+          initialRout = HomePage.id;
+        }
       }
     }
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(milliseconds: 500), () {
       Navigator.pushNamedAndRemoveUntil(
           context, initialRout, ModalRoute.withName(initialRout));
     });
+  }
+
+  Future<void> logoutUser() async {
+    await AuthenticationService().userSignOut();
+    if (!AuthenticationService().isSignedIn()) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, InitialPage.id, ModalRoute.withName(InitialPage.id));
+
+      FirestoreService.resetUser();
+    }
   }
 }

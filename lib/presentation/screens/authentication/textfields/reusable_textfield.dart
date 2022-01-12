@@ -12,7 +12,8 @@ class ReusableTextField extends StatelessWidget {
       required this.focusNode,
       required this.hint,
       this.inputFormatter,
-      this.fieldError = false})
+      this.fieldError = false,
+      this.maxLines = 1})
       : super(key: key);
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class ReusableTextField extends StatelessWidget {
   final String hint;
   final TextInputType inputType;
   final bool fieldError;
+  final int maxLines;
   final MaskTextInputFormatter? inputFormatter;
 
   @override
@@ -29,7 +31,7 @@ class ReusableTextField extends StatelessWidget {
     double width = MediaQuery.of(context).size.width; //width of screen
     return Container(
         alignment: Alignment.center,
-        width: width * .805,
+        width: width * .8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
@@ -50,6 +52,7 @@ class ReusableTextField extends StatelessWidget {
           cursorColor: primary,
           textAlign: TextAlign.start,
           onTap: function,
+          maxLines: maxLines,
           validator: (value) {
             if (value!.isEmpty) {
               return "Enter this field";
@@ -62,7 +65,8 @@ class ReusableTextField extends StatelessWidget {
           ),
           focusNode: focusNode,
           decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               border: InputBorder.none,
               hintText: hint,
               hintStyle:

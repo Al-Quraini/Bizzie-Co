@@ -42,6 +42,7 @@ class AuthenticationService {
 
       return null;
     } catch (e) {
+      // return the error message to be displayed as an alert dialog
       List<String> messageArray = e.toString().split(' ');
       messageArray.removeAt(0);
       String error = messageArray.join(' ');
@@ -49,11 +50,13 @@ class AuthenticationService {
     }
   }
 
+  // if there is user signed in, return true
   bool isSignedIn() {
     final currentUser = _auth.currentUser;
     return currentUser != null;
   }
 
+  // get current user credentials
   auth.User? getUser() {
     return _auth.currentUser;
   }

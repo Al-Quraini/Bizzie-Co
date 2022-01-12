@@ -47,7 +47,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         ],
       ),
       child: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
+        // shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,

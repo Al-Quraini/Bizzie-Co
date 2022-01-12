@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bizzie_co/data/models/request.dart';
 import 'package:bizzie_co/data/models/user.dart';
 import 'package:bizzie_co/data/repository/firestore_repository.dart';
+import 'package:bizzie_co/data/service/storage_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
@@ -39,25 +40,36 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
   }
 
   Stream<RequestState> _mapLoadRequestsToState() async* {
-    _requestSubscription?.cancel();
-    _firestoreRepository.getAllRequests().listen((requests) async {
-      List<User> users = [];
+    // _requestSubscription?.cancel();
+    _requestSubscription =
+        _firestoreRepository.getAllRequests().listen((requests) async {
+      List<Request> myRequests = [];
       for (Request request in requests) {
-        final user = await _firestoreRepository.loadUserData(
-            userUid: request.requestFrom);
-        if (user != null) {
-          users.add(user);
-        }
+        final userImageUrl =
+            await StorageService().getImageUrl(request.userImagePath);
+
+        request.setUrl = userImageUrl;
+
+        myRequests.add(request);
       }
-      add(UpdateRequest(requests, users));
+      add(UpdateRequest(myRequests));
     });
   }
 
   Stream<RequestState> _mapUpdateRequestsToState(UpdateRequest event) async* {
-    yield RequestLoaded(requests: event.requests, users: event.users);
+    yield RequestLoaded(
+      requests: event.requests,
+    );
   }
 
   Stream<RequestState> _mapCancelRequestsToState() async* {
+    _requestSubscription?.cancel();
     yield InitialRequestState();
+  }
+
+  @override
+  Future<void> close() {
+    _requestSubscription?.cancel();
+    return super.close();
   }
 }

@@ -12,12 +12,11 @@ class LoadRequest extends RequestEvent {}
 
 class UpdateRequest extends RequestEvent {
   final List<Request> requests;
-  final List<User> users;
 
-  const UpdateRequest(this.requests, this.users);
+  const UpdateRequest(this.requests);
 
   @override
-  List<Object> get props => [requests, users];
+  List<Object> get props => [requests];
 }
 
 class CancelRequest extends RequestEvent {}

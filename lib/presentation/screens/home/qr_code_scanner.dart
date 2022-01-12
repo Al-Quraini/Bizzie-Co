@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:bizzie_co/utils/constant.dart';
@@ -37,7 +36,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
       body: Stack(
         children: <Widget>[
           _buildQrView(context),
-          Positioned.fill(
+          /* Positioned.fill(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -54,7 +53,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 ),
               ),
             ),
-          ),
+          ), */
           Positioned.fill(
             child: Align(
               alignment: Alignment.topLeft,

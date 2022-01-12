@@ -3,37 +3,41 @@ import 'dart:convert';
 import 'package:bizzie_co/data/models/user/geo_location.dart';
 
 class Experience {
-  final String position;
-  final String job;
-  final String startYear;
-  final String? endYear;
-  final GeoLocation location;
-  final String description;
+  final String? institution;
+  final String? profession;
+  final String? field;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final GeoLocation? location;
+  final String? description;
   final bool isPresent;
   Experience({
-    required this.position,
-    required this.job,
-    required this.startYear,
-    this.endYear,
-    required this.location,
-    required this.description,
+    this.institution,
+    this.profession,
+    this.field,
+    this.startDate,
+    this.endDate,
+    this.location,
+    this.description,
     this.isPresent = false,
   });
 
   Experience copyWith({
-    String? position,
-    String? job,
-    String? startYear,
-    String? endYear,
+    String? institution,
+    String? profession,
+    String? field,
+    DateTime? startDate,
+    DateTime? endDate,
     GeoLocation? location,
     String? description,
     bool? isPresent,
   }) {
     return Experience(
-      position: position ?? this.position,
-      job: job ?? this.job,
-      startYear: startYear ?? this.startYear,
-      endYear: endYear ?? this.endYear,
+      institution: institution ?? this.institution,
+      profession: profession ?? this.profession,
+      field: field ?? this.field,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       location: location ?? this.location,
       description: description ?? this.description,
       isPresent: isPresent ?? this.isPresent,
@@ -42,11 +46,12 @@ class Experience {
 
   Map<String, dynamic> toMap() {
     return {
-      'position': position,
-      'job': job,
-      'startYear': startYear,
-      'endYear': endYear,
-      'location': location.toMap(),
+      'institution': institution,
+      'profession': profession,
+      'field': field,
+      'startDate': startDate?.millisecondsSinceEpoch,
+      'endDate': endDate?.millisecondsSinceEpoch,
+      'location': location?.toMap(),
       'description': description,
       'isPresent': isPresent,
     };
@@ -54,13 +59,19 @@ class Experience {
 
   factory Experience.fromMap(Map<String, dynamic> map) {
     return Experience(
-      position: map['position'],
-      job: map['job'],
-      startYear: map['startYear'],
-      endYear: map['endYear'],
-      location: GeoLocation.fromMap(map['location']),
+      institution: map['institution'],
+      profession: map['profession'],
+      field: map['field'],
+      startDate: map['startDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['startDate'])
+          : null,
+      endDate: map['endDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['endDate'])
+          : null,
+      location:
+          map['location'] != null ? GeoLocation.fromMap(map['location']) : null,
       description: map['description'],
-      isPresent: map['isPresent'],
+      isPresent: map['isPresent'] ?? false,
     );
   }
 
@@ -71,7 +82,7 @@ class Experience {
 
   @override
   String toString() {
-    return 'Experience(position: $position, job: $job, startYear: $startYear, endYear: $endYear, location: $location, description: $description, isPresent: $isPresent)';
+    return 'Experience(institution: $institution, profession: $profession, field: $field, startDate: $startDate, endDate: $endDate, location: $location, description: $description, isPresent: $isPresent)';
   }
 
   @override
@@ -79,10 +90,11 @@ class Experience {
     if (identical(this, other)) return true;
 
     return other is Experience &&
-        other.position == position &&
-        other.job == job &&
-        other.startYear == startYear &&
-        other.endYear == endYear &&
+        other.institution == institution &&
+        other.profession == profession &&
+        other.field == field &&
+        other.startDate == startDate &&
+        other.endDate == endDate &&
         other.location == location &&
         other.description == description &&
         other.isPresent == isPresent;
@@ -90,10 +102,11 @@ class Experience {
 
   @override
   int get hashCode {
-    return position.hashCode ^
-        job.hashCode ^
-        startYear.hashCode ^
-        endYear.hashCode ^
+    return institution.hashCode ^
+        profession.hashCode ^
+        field.hashCode ^
+        startDate.hashCode ^
+        endDate.hashCode ^
         location.hashCode ^
         description.hashCode ^
         isPresent.hashCode;

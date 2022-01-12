@@ -43,7 +43,7 @@ class AppleButton extends StatelessWidget {
                 SizedBox(
                   width: constraint.maxWidth / 1.5,
                   child: AutoSizeText(
-                    '   continue with Apple  ',
+                    '   continue with Apple  '.toUpperCase(),
                     maxLines: 1,
                     maxFontSize: 16,
                     minFontSize: 12,

@@ -33,7 +33,9 @@ class StatsField extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+
+        // TODO : work on number of card shares
+        /*  Container(
           height: 40.0,
           width: 0.5,
           color: Colors.black26,
@@ -76,7 +78,7 @@ class StatsField extends StatelessWidget {
                       fontSize: 12, fontWeight: FontWeight.w400)),
             ],
           ),
-        ),
+        ), */
       ],
     );
   }

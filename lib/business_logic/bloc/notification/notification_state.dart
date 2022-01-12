@@ -14,8 +14,11 @@ class NotificationLoading extends NotificationState {}
 class NotificationLoaded extends NotificationState {
   final List<NotificationModel> notifications;
 
-  const NotificationLoaded({this.notifications = const <NotificationModel>[]});
+
+  const NotificationLoaded(
+      {this.notifications = const <NotificationModel>[],
+      });
 
   @override
-  List<Object?> get props => [notifications];
+  List<Object?> get props => [notifications,];
 }

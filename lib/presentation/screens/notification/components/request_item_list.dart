@@ -1,6 +1,7 @@
 import 'package:bizzie_co/data/models/request.dart';
 import 'package:bizzie_co/data/models/user.dart';
 import 'package:bizzie_co/data/service/firestore_service.dart';
+import 'package:bizzie_co/utils/extension.dart';
 
 import 'package:bizzie_co/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RequestItemList extends StatelessWidget {
-  const RequestItemList({Key? key, required this.request, required this.user})
-      : super(key: key);
+  const RequestItemList({Key? key, required this.request}) : super(key: key);
 
   final Request request;
-  final User user;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height; //height of screen
@@ -40,11 +39,12 @@ class RequestItemList extends StatelessWidget {
                         Container(
                           height: 70,
                           width: 70,
-                          child: Image.network(
-                            user.imageUrl ??
-                                'https://www.gravatar.com/avatar/aaa832abcbd3c9f68fdce691a44dac7f?s=64&d=identicon&r=PG&f=1',
-                            fit: BoxFit.cover,
-                          ),
+                          child: request.userImagePath == null
+                              ? const SizedBox()
+                              : Image.network(
+                                  request.userImage!,
+                                  fit: BoxFit.cover,
+                                ),
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                             color: Colors.grey[300],
@@ -74,15 +74,13 @@ class RequestItemList extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                              user.firstName != null && user.lastName != null
-                                  ? '${user.firstName} ${user.lastName} '
-                                  : '-',
+                              '${request.userFirstName} ${request.userFirstName} ',
                               maxLines: 1,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               )),
-                          Text('- ${user.occupation ?? '-'}',
+                          Text('- ${request.industry ?? '-'}',
                               style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 color: Colors.black45,
@@ -106,7 +104,8 @@ class RequestItemList extends StatelessWidget {
                                     fontWeight: FontWeight.w400,
                                   )),
                               TextSpan(
-                                  text: '\r\r\r7 hrs',
+                                  text:
+                                      '\r\r\r${request.timestamp.toTimeAgo()}',
                                   style: GoogleFonts.poppins(
                                     fontSize: 11,
                                     color: Colors.black54,

@@ -14,10 +14,10 @@ class LoadConnections extends ConnectionsEvent {}
 
 class UpdateConnections extends ConnectionsEvent {
   final List<Connection> connections;
-  final List<User> users;
 
-  const UpdateConnections(this.connections, this.users);
+
+  const UpdateConnections(this.connections);
 
   @override
-  List<Object> get props => [connections, users];
+  List<Object> get props => [connections];
 }

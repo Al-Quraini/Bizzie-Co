@@ -1,16 +1,13 @@
 import 'package:bizzie_co/data/models/user/geo_location.dart';
+import 'package:bizzie_co/data/service/authentication_service.dart';
 import 'package:bizzie_co/data/service/firestore_service.dart';
-import 'package:bizzie_co/presentation/screens/authentication/interests_page.dart';
-import 'package:bizzie_co/presentation/screens/authentication/user_info.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bizzie_co/presentation/screens/home/home_page.dart';
 import 'package:bizzie_co/utils/constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -44,25 +41,26 @@ class _SetLocationState extends State<SetLocation> {
         child: Column(
           children: [
             // Back button
+
             SafeArea(
               // contains back button
               child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                  // children: [
+                  //   IconButton(
+                  //     icon: const Icon(Icons.arrow_back),
+                  //     onPressed: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //   ),
+                  //   Text(
+                  //     'Back',
+                  //     style: GoogleFonts.poppins(
+                  //       textStyle: const TextStyle(
+                  //           fontSize: 18.0, fontWeight: FontWeight.w400),
+                  //     ),
+                  //   ),
+                  // ],
                   ),
-                  Text(
-                    'Back',
-                    style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ],
-              ),
             ),
 
             // page
@@ -189,36 +187,36 @@ class _SetLocationState extends State<SetLocation> {
               ),
             ),
 
-            SizedBox(
-              height: 0.08 * height, // 146.0
-            ),
+            // SizedBox(
+            //   height: 0.08 * height, // 146.0
+            // ),
 
-            SizedBox(
-              width: 200,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: 12,
-                    width: 12,
-                    decoration: const BoxDecoration(
-                        color: activeIndicator, shape: BoxShape.circle),
-                  ),
-                  Container(
-                    height: 12,
-                    width: 12,
-                    decoration: const BoxDecoration(
-                        color: activeIndicator, shape: BoxShape.circle),
-                  ),
-                  Container(
-                    height: 12,
-                    width: 12,
-                    decoration: const BoxDecoration(
-                        color: inactiveIndicator, shape: BoxShape.circle),
-                  ),
-                ],
-              ),
-            ),
+            // SizedBox(
+            //   width: 200,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       Container(
+            //         height: 12,
+            //         width: 12,
+            //         decoration: const BoxDecoration(
+            //             color: activeIndicator, shape: BoxShape.circle),
+            //       ),
+            //       Container(
+            //         height: 12,
+            //         width: 12,
+            //         decoration: const BoxDecoration(
+            //             color: activeIndicator, shape: BoxShape.circle),
+            //       ),
+            //       Container(
+            //         height: 12,
+            //         width: 12,
+            //         decoration: const BoxDecoration(
+            //             color: inactiveIndicator, shape: BoxShape.circle),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             const SizedBox(
               height: 20.0, // 44.0
@@ -243,8 +241,12 @@ class _SetLocationState extends State<SetLocation> {
                           fontWeight: FontWeight.bold,
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushNamed(context, InterestsPage.id);
+                          ..onTap = () async {
+                            await FirestoreService().loadUserData(
+                                userUid:
+                                    AuthenticationService().getUser()!.uid);
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                HomePage.id, ModalRoute.withName(HomePage.id));
                           }),
                   ]),
             ),
@@ -320,7 +322,10 @@ class _SetLocationState extends State<SetLocation> {
     bool isSent = await FirestoreService().updateUser(map: map);
 
     if (isSent) {
-      Navigator.pushNamed(context, InterestsPage.id);
+      await FirestoreService()
+          .loadUserData(userUid: AuthenticationService().getUser()!.uid);
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomePage.id, ModalRoute.withName(HomePage.id));
     }
   }
 }

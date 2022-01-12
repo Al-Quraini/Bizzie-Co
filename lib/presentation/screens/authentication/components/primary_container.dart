@@ -5,25 +5,23 @@ import 'package:flutter/material.dart';
 class PrimaryContainer extends StatelessWidget {
   const PrimaryContainer({
     Key? key,
-    required this.height,
-    required this.width,
-    this.containerHeight = 0.3,
+    required this.containerHeight,
     this.padding = 90,
   }) : super(key: key);
 
-  final double height;
-  final double width;
   final double containerHeight;
   final double padding;
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height; //height of screen
+    double width = MediaQuery.of(context).size.width; //width of screen
     return Align(
       alignment: Alignment.topCenter,
       child: ClipPath(
         clipper: SignUpClipperPrimary(height: height, width: width),
         child: Container(
-          height: containerHeight * height,
+          height: containerHeight,
           decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
               // color: primary,

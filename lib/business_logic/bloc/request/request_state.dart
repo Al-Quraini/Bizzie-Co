@@ -14,11 +14,9 @@ class RequestLoading extends RequestState {}
 
 class RequestLoaded extends RequestState {
   final List<Request> requests;
-  final List<User> users;
 
-  const RequestLoaded(
-      {this.users = const <User>[], this.requests = const <Request>[]});
+  const RequestLoaded({this.requests = const <Request>[]});
 
   @override
-  List<Object?> get props => [requests, users];
+  List<Object?> get props => [requests];
 }

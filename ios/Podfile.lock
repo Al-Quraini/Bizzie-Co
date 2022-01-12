@@ -541,6 +541,9 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.0)
+  - image_cropper (0.0.4):
+    - Flutter
+    - TOCropViewController (~> 2.6.0)
   - image_picker (0.0.1):
     - Flutter
   - leveldb-library (1.22.1)
@@ -557,6 +560,9 @@ PODS:
     - Flutter
     - MTBBarcodeScanner
   - Reachability (3.2)
+  - share (0.0.1):
+    - Flutter
+  - TOCropViewController (2.6.0)
   - wifi_info_flutter (0.0.1):
     - Flutter
 
@@ -573,9 +579,11 @@ DEPENDENCIES:
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - wifi_info_flutter (from `.symlinks/plugins/wifi_info_flutter/ios`)
 
 SPEC REPOS:
@@ -605,6 +613,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Reachability
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -631,12 +640,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
   qr_code_scanner:
     :path: ".symlinks/plugins/qr_code_scanner/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   wifi_info_flutter:
     :path: ".symlinks/plugins/wifi_info_flutter/ios"
 
@@ -673,6 +686,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  image_cropper: f1668dd8d2cad2d357955caad15a40547856edcb
   image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
@@ -681,6 +695,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   wifi_info_flutter: 55d4c2469034f5b5c38063ccefa62f708a503a2b
 
 PODFILE CHECKSUM: 775997f741c536251164e3eacf6e34abf2eb7a17

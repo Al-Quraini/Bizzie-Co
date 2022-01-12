@@ -9,6 +9,8 @@ class CustomDialog extends StatelessWidget {
   final Function()? onPress;
   final bool done;
   final String dismissTitle;
+  final IconData icon;
+  final Color color;
 
   const CustomDialog(
       {Key? key,
@@ -17,7 +19,9 @@ class CustomDialog extends StatelessWidget {
       this.actionTitle,
       this.onPress,
       this.done = false,
-      this.dismissTitle = 'Cancel'})
+      this.dismissTitle = 'Cancel',
+      this.icon = FontAwesomeIcons.solidCheckCircle,
+      required this.color})
       : super(key: key);
 
   @override
@@ -37,11 +41,11 @@ class CustomDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (done)
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Icon(
-                  FontAwesomeIcons.solidCheckCircle,
-                  color: Color(0xFF4BD37B),
+                  icon,
+                  color: color,
                   size: 30,
                 ),
               ),

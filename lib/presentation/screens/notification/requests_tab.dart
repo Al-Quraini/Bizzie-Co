@@ -22,7 +22,6 @@ class RequestTab extends StatelessWidget {
           BlocBuilder<RequestBloc, RequestState>(builder: (context, state) {
             if (state is RequestLoaded) {
               List<Request> requests = state.requests;
-              List<User> users = state.users;
               // FirestoreService().getRequests(snapshot);
               if (requests.isNotEmpty) {
                 return ListView.builder(
@@ -34,7 +33,6 @@ class RequestTab extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return RequestItemList(
                       request: requests[index],
-                      user: users[index],
                     );
                   },
                 );

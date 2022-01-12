@@ -31,9 +31,9 @@ class AuthButton extends StatelessWidget {
         onPressed: onPress,
         child: Text(title,
             style: GoogleFonts.quicksand(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            )),
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.white)),
         style: ElevatedButton.styleFrom(
             primary: Colors.transparent,
             minimumSize: Size(width * .7, height * .05),

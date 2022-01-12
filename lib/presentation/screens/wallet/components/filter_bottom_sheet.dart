@@ -1,5 +1,7 @@
 import 'package:bizzie_co/presentation/screens/wallet/components/tier_container.dart';
+
 import 'package:bizzie_co/utils/constant.dart';
+import 'package:bizzie_co/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expandable/expandable.dart';
@@ -125,8 +127,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
+                // TODO : work on tier level and industry filter
+                /* Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
                   child: Text('Filter ',
                       style: GoogleFonts.poppins(
                           fontSize: 18,
@@ -137,6 +142,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   indent: 15,
                   endIndent: 15,
                   color: Colors.grey,
+                  height: 0,
                 ),
                 ExpandableNotifier(
                   child: Column(
@@ -147,15 +153,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               tapBodyToCollapse: false, tapBodyToExpand: true),
                           header: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
+                                horizontal: 20, vertical: 10),
                             child: Text('Tiers ',
                                 style: GoogleFonts.poppins(
                                     fontSize: 18, fontWeight: FontWeight.w500)),
                           ),
                           expanded: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 0),
+                                vertical: 15, horizontal: 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
@@ -204,6 +209,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   indent: 15,
                   endIndent: 15,
                   color: Colors.grey,
+                  height: 0,
                 ),
                 ExpandableNotifier(
                   child: Column(
@@ -214,8 +220,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               tapBodyToCollapse: false, tapBodyToExpand: true),
                           header: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
+                                horizontal: 20, vertical: 10),
                             child: Text('Industry ',
                                 style: GoogleFonts.poppins(
                                     fontSize: 18, fontWeight: FontWeight.w500)),
@@ -282,7 +287,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       ),
                     ],
                   ),
-                )
+                ) */
               ],
             ),
           ),
@@ -294,6 +299,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   icon: const Icon(
@@ -317,5 +324,3 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     );
   }
 }
-
-enum SortType { newest, oldest, aToZ, zToA }

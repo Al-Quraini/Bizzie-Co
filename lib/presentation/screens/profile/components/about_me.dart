@@ -1,16 +1,20 @@
 import 'package:bizzie_co/data/models/user.dart';
+import 'package:bizzie_co/data/models/user_card.dart';
 import 'package:bizzie_co/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bizzie_co/utils/extension.dart';
 
 class AboutMe extends StatelessWidget {
   const AboutMe({
     Key? key,
     required this.user,
+    required this.card,
   }) : super(key: key);
 
   final User user;
+  final UserCard card;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height; //height of screen
@@ -27,10 +31,10 @@ class AboutMe extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 height: 70,
                 width: 70,
-                child: user.imageUrl == null
+                child: user.imagePath == null
                     ? const SizedBox()
                     : Image.network(
-                        user.imageUrl!,
+                        user.userImage!,
                         fit: BoxFit.cover,
                       ),
                 decoration: BoxDecoration(
@@ -73,7 +77,7 @@ class AboutMe extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  Text(user.occupation ?? '-',
+                  Text(user.industry ?? '-',
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
@@ -82,7 +86,7 @@ class AboutMe extends StatelessWidget {
                     height: 3,
                   ),
                   Text(
-                      '${user.location?.city ?? ''}, ${getStateAbriviation() ?? ''}',
+                      '${user.location?.city ?? ''}, ${user.location?.state?.getStateAbreviation() ?? ''}',
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
@@ -112,11 +116,13 @@ class AboutMe extends StatelessWidget {
 
   // user detail bottom sheet
   void showDetailBottomSheet(BuildContext context) {
+    final rootNavigatorContext =
+        Navigator.of(context, rootNavigator: true).context;
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
         ),
-        context: context,
+        context: rootNavigatorContext,
         isScrollControlled: true,
         builder: (context) => Container(
             height: MediaQuery.of(context).size.height * 0.75,
@@ -148,10 +154,10 @@ class AboutMe extends StatelessWidget {
                         clipBehavior: Clip.antiAlias,
                         height: 85,
                         width: 85,
-                        child: user.imageUrl == null
+                        child: user.imagePath == null
                             ? const SizedBox()
                             : Image.network(
-                                user.imageUrl!,
+                                user.userImage!,
                                 fit: BoxFit.cover,
                               ),
                         decoration: BoxDecoration(
@@ -224,7 +230,7 @@ class AboutMe extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Row(
                       children: [
-                        Text('123456789',
+                        Text(user.phone!,
                             style: GoogleFonts.poppins(
                               letterSpacing: 1,
                               fontSize: 12,
@@ -246,7 +252,7 @@ class AboutMe extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Row(
                       children: [
-                        Text('123456789',
+                        Text(card.workPhone ?? '',
                             style: GoogleFonts.poppins(
                               letterSpacing: 1,
                               fontSize: 12,
@@ -286,7 +292,7 @@ class AboutMe extends StatelessWidget {
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text('m@gmail.com',
+                    child: Text(card.email,
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -314,7 +320,7 @@ class AboutMe extends StatelessWidget {
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text('https://www.google.com',
+                    child: Text(card.website ?? '',
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -341,7 +347,7 @@ class AboutMe extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text('1234 Main st\nBostom MA 1234',
+                    child: Text(card.workAddress ?? '',
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -358,20 +364,5 @@ class AboutMe extends StatelessWidget {
                 ],
               ),
             )));
-  }
-
-  String? getStateAbriviation() {
-    if (user.location == null || user.location!.state!.isEmpty) return null;
-    String state = user.location?.state ?? '';
-    List<String> splitted = state.split('');
-    String abriviation = state.substring(0, 2).toUpperCase();
-
-    if (splitted.length == 2) {
-      abriviation =
-          '${splitted[0].substring(0, 1)}${splitted[1].substring(0, 1)}';
-      return abriviation.toUpperCase();
-    }
-
-    return abriviation;
   }
 }
